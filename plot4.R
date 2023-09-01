@@ -1,0 +1,17 @@
+file <- read.table(file = "household_power_consumption.txt", header = T, sep = ";")
+newfile4 <- subset(file, file$Date=="1/2/2007" | file$Date =="2/2/2007")
+rm(file)
+newfile4$Time <- as.POSIXct(paste0(newfile4$Date, newfile4$Time), format ="%d/%m/%Y %H:%M:%S")
+str(newfile2)
+png(filename = "plot4.png")
+par(mfrow = c(2,2), mar = c(4,4,2,2))
+plot(newfile4$Time, newfile4$Global_active_power, type = "l",xlab = "", ylab = "Global Active Power")
+plot(newfile4$Time, newfile4$Voltage,type = "l", xlab = "datetime", ylab = "Voltage")
+plot(newfile4$Time, newfile4$Sub_metering_1, type = "l",xlab = "", ylab = "Energy sub metering", col = "black")
+lines(newfile4$Time, newfile4$Sub_metering_2, col = "red")
+lines(newfile4$Time, newfile4$Sub_metering_3, col = "blue")
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), 
+       col = c("black","red","blue"), lty = 1, cex = 0.8)
+plot(newfile4$Time, newfile4$Global_reactive_power, type = "l", xlab = "datetime", ylab = "Global_reactive_power")
+dev.off()
+
